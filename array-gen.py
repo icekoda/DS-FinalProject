@@ -13,10 +13,7 @@ import numpy as np
 
 #Set image = image that will be opened
 image = Image.open('MNIST_DS/1/img_1000.jpg').convert('L')
-img = Image.open('MNIST_DS/1/img_1000.jpg')
 #Converts the gray image to an array
 data = np.asarray(image)
-newdata = np.asarray(img)
 #Print the array
 print(data)
-print(newdata)
