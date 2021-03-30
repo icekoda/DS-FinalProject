@@ -1,0 +1,22 @@
+===Final Project Notes===
+
+Abstract:
+
+	1. Create a barcode to present each image.
+	2. Use the barcode of the image to search for the most similar image in the
+	   dataset.
+	3. Conduct an experiment to report the retrieval accuracy.
+
+Required Algorithms:
+
+	1. Barcode_Generator
+	2. Search_Algorithm
+
+Objectives:
+
+	1. Convert Image to an Array
+---:		a. Convert a single image to an array
+		b. Create function that can cycle through all images and create
+		   an array for each
+	2. Convert Array to Barcode
+	3. Allow reverse order
