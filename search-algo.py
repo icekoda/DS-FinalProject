@@ -86,7 +86,7 @@ inputBarcodeCode = Code(str(inputBarcode),str(BarcodeReader(inputBarcode)), 0)
 
 #Put all folder directories in one list
 for folder in os.listdir(r"MNIST_DS"):
-    directoryList.append(r"MNIST_DS" + chr(92) + str(folder))
+    directoryList.append(r"MNIST_DS/" + str(folder))
 
 if __name__ == "__main__":
     # Create Code object for each image
@@ -94,7 +94,7 @@ if __name__ == "__main__":
         for file in os.listdir(folder):
             #Making sure only the barcode images are being compared
             if file.startswith("b"):
-                fileBarcode = str(BarcodeReader(r"MNIST_DS" + chr(92) +str(folder)[-1] + chr(92) + file))
+                fileBarcode = str(BarcodeReader(r"MNIST_DS/" + str(folder)[-1] + "/" + file))
                 #Making sure the input image isn't being compared
                 if calculateHammingDist(inputBarcodeCode.barcode,fileBarcode) != 0:
                     #Create objects for all images containing their directory path, barcode, and hamming distance and storing them in the object array
