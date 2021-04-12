@@ -14,7 +14,7 @@ class bcolors:
 x = input("MNIST/"f"{bcolors.CYAN}x{bcolors.ENDC}""/b_y.jpg \n Please enter x: \n")
 y = input("MNIST/" + x + "/b_" + x + f"{bcolors.CYAN}y{bcolors.ENDC}"".jpg \n Please enter y: \n")
 
-inputBarcode = ("MNIST/" + x + "/b_" + x + y + ".jpg \n")
+inputBarcode = (f"{bcolors.CYAN}MNIST/{bcolors.ENDC}" + x + f"{bcolors.CYAN}/b_{bcolors.ENDC}" + x + y + f"{bcolors.CYAN}.jpg{bcolors.ENDC}\n")
 print("PATH: " ,inputBarcode)
 time.sleep(1)
 
