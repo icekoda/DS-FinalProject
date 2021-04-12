@@ -93,8 +93,24 @@ class projection:
 		#sets the offset
 		ofs = -1
 		trace_sum = np.trace(proj_list,offset=ofs)
-		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")	
+		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")
+		trace_sum /= 3
+		tsum = int(trace_sum)
+		trace_sum = tsum
 		return trace_sum
+	
+	def proj_45s(self):
+		proj_list = self.data
+		#sets the offset
+		ofs = -1
+		trace_sum = np.trace(proj_list,offset=ofs)
+		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")
+		trace_sum /= 0.5
+		tsum = int(trace_sum)
+		trace_sum = tsum
+		return trace_sum
+
+
 
 	#computes the trace values #2		
 	def proj_135(self):
@@ -102,7 +118,21 @@ class projection:
 		#sets the offeset
 		ofs = 2
 		trace_sum = np.trace(proj_list,offset=ofs)
-		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")	
+		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")
+		trace_sum /= 3
+		tsum = int(trace_sum)
+		trace_sum = tsum
+		return trace_sum
+
+	def proj_135s(self):
+		proj_list = self.data
+		#sets the offeset
+		ofs = 2
+		trace_sum = np.trace(proj_list,offset=ofs)
+		print("Projection (trace" , ofs ,"): \n" , trace_sum , "\n")
+		trace_sum /= 0.5
+		tsum = int(trace_sum)
+		trace_sum = tsum
 		return trace_sum
 
 #initiates a class that will take an integer, and split up each digit
@@ -153,25 +183,30 @@ class binary:
 # a threshold value
 class convert:
 	#takes array input
-	def __init__(self,array,p0,p45,p90,p135):
+	def __init__(self,array,p0,p45,p90,p135,p45s,p135s):
 		#declares each input variable, in this case, the projections	
 		self.array = array
 		self.p0 = p0
 		self.p45 = p45
 		self.p90 = p90
 		self.p135 = p135
+		self.p45s = p45s
+		self.p135s = p135s
 	
 	#takes binary conversion, adds to a list, and then outputs string
 	def returnn(self):
 		#the diagonal projections are different, and need to be expanded
 		p45e = expand(self.p45)
 		p135e = expand(self.p135)
-		
+		p45se = expand(self.p45s)
+		p135se = expand(self.p135s)
 
 		p0 = binary(self.p0)
 		p45 = binary(np.asarray(p45e.this()))
 		p90 = binary(self.p90)
 		p135 = binary(np.asarray(p135e.this()))
+		p45s = binary(np.asarray(p45se.this()))
+		p135s = binary(np.asarray(p135se.this()))
 		
 		print("p0: ")
 		p0r = p0.returnn()
@@ -181,24 +216,32 @@ class convert:
 		p90r = p90.returnn()
 		print("p135: ")
 		p135r = p135.returnn()
+		print("p45s: ")
+		p45sr = p45s.returnn()
+		print("p135s: ")
+		p135sr = p135s.returnn()
 	
-		return p0r , p45r , p90r , p135r
+		return p0r , p45r , p90r , p135r , p45sr , p135sr
 
 #this class will take in the binary projections, concatenate them, and output a
 # barcode
 class barcode:
-	def __init__(self,p0,p45,p90,p135,a,b):
+	def __init__(self,p0,p45,p90,p135,p45s,p135s,a,b):
 		self.p0 = p0
 		self.p45 = p45
 		self.p90 = p90
 		self.p135 = p135
+		self.p45s = p45s
+		self.p135s = p135s
 		self.a = a
 		self.b = b
 
 	def returnn(self):
-		joined = self.p0 + self.p90 + self.p45 + self.p135
+		joined = self.p0 + self.p90 + self.p45 + self.p45s  + self.p135 + self.p135s
 		#concatenates the list values into one string
 		string = ''.join(map(str,joined))
+		while len(string) != 70:
+			string += str(0)
 		path =  ("MNIST_DS/" + str(self.a) + "/b_" + str(self.a) + str(self.b) +".jpg")
 		#outputs the string as a barcode
 		with open(path,'wb') as f:
@@ -221,14 +264,16 @@ class output:
 
 		p0 = arrayproj.proj_0()
 		p45 = arrayproj.proj_45()
+		p45s = arrayproj.proj_45s()
 		p90 = arrayproj.proj_90()
 		p135 = arrayproj.proj_135()
+		p135s = arrayproj.proj_135s()
 		
 		#outputs the binary string for each projection
-		this = convert(narray,p0,p45,p90,p135)
-		p0,p45,p90,p135 = this.returnn()
+		this = convert(narray,p0,p45,p90,p135,p45s,p135s)
+		p0,p45,p90,p135,p45s,p135s = this.returnn()
 		
-		bc = barcode(p0,p45,p90,p135,a,b)
+		bc = barcode(p0,p45,p90,p135,p45s,p135s,a,b)
 		code = bc.returnn()	
 		print("PATH: " , self.path)
 

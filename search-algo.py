@@ -2,6 +2,7 @@
 import cv2
 import os
 from pyzbar.pyzbar import decode
+from PIL import Image, ImageOps
 import time
 
 #class that defines text colors
@@ -11,12 +12,14 @@ class bcolors:
 
 #Create necessary variables
 #Input barcode here, will be retrieved from barcode generator part
-x = input("MNIST/"f"{bcolors.CYAN}x{bcolors.ENDC}""/b_y.jpg \n Please enter x: \n")
-y = input("MNIST/" + x + "/b_" + x + f"{bcolors.CYAN}y{bcolors.ENDC}"".jpg \n Please enter y: \n")
+x = input("MNIST_DS/"f"{bcolors.CYAN}x{bcolors.ENDC}""/b_xy.jpg \n Please enter x: \n")
+y = input("MNIST_DS/" + x + "/b_" + x + f"{bcolors.CYAN}y{bcolors.ENDC}"".jpg \n Please enter y: \n")
 
-inputBarcode = (f"{bcolors.CYAN}MNIST/{bcolors.ENDC}" + x + f"{bcolors.CYAN}/b_{bcolors.ENDC}" + x + y + f"{bcolors.CYAN}.jpg{bcolors.ENDC}\n")
-print("PATH: " ,inputBarcode)
+path = (f"{bcolors.CYAN}MNIST_DS/{bcolors.ENDC}" + x + f"{bcolors.CYAN}/b_{bcolors.ENDC}" + x + y + f"{bcolors.CYAN}.jpg{bcolors.ENDC}\n")
+print("PATH: " ,path)
 time.sleep(1)
+
+inputBarcode= ("MNIST_DS/" + x +"/b_" + x + y + ".jpg")
 
 barcodeList = []
 directoryList = []
@@ -56,7 +59,7 @@ def calculateHammingDist(inputBarcode,currentBarcode):
     hammingDistance = 0
     #The count variable will serve as a temporary hamming distance for each comparisson
 
-    for i in range(0, len(inputBarcode) - 2):
+    for i in range(0, len(inputBarcode) -2):
         if inputBarcode[i] != currentBarcode[i]:
             hammingDistance += 1
     return hammingDistance
