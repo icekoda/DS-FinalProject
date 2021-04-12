@@ -2,10 +2,22 @@
 import cv2
 import os
 from pyzbar.pyzbar import decode
+import time
+
+#class that defines text colors
+class bcolors:
+	CYAN = '\033[96m'
+	ENDC = '\033[0m'
 
 #Create necessary variables
 #Input barcode here, will be retrieved from barcode generator part
-inputBarcode = r'MNIST_DS\9\b_91.jpg'
+x = input("MNIST/"f"{bcolors.CYAN}x{bcolors.ENDC}""/b_y.jpg \n Please enter x: \n")
+y = input("MNIST/" + x + "/b_" + x + f"{bcolors.CYAN}y{bcolors.ENDC}"".jpg \n Please enter y: \n")
+
+inputBarcode = ("MNIST/" + x + "/b_" + x + y + ".jpg \n")
+print("PATH: " ,inputBarcode)
+time.sleep(1)
+
 barcodeList = []
 directoryList = []
 
